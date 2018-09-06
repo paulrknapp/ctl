@@ -1,0 +1,115 @@
+Title: Paul's Indigency Calculator
+Author: Paul Knapp
+Before:<link rel="stylesheet" type="text/css" href="https://suffolklitlab.org/howto/qna/style/style.css">
+<div id="icon" style="background-size: 110px 99px;background-image: url('https://suffolklitlab.org/howto/qna/images/maxheadroom.gif');"></div>
+<h2 style="text-align:center;">Paul's Indigency Calculator</h2>
+<p><b>This is a <a href="http://www.codingthelaw.org/">class project</a>. You should not rely on it as a source of legal information. It is likely incomplete.</b></p>
+<p>Answer the following questions to see if someone qualifies for appointment of counsel.</p>
+
+Q(1): How many members are in their household? (Related by birth, marriage, or adoption)
+A: Just him/her
+	Q(1.1):GOTO:Single
+A: 2
+	Q(1.2):GOTO:Single
+A: 3
+	Q(1.3):GOTO:3
+A: 4
+	Q(1.4):GOTO:4
+A: 5
+	Q(1.5):GOTO:5
+A: 6
+	Q(1.6):GOTO:6
+A: 7
+	Q(1.7):GOTO:7
+A: 8
+	Q(1.8):GOTO:8
+A: More than 8
+	Q(1.9):GOTO:8Plus
+
+Q(Single): Is their gross income plus their liquid assets more than $12,140?
+A: Yes
+	Q(2.1):GOTO:Attorney
+A: No
+	Q(2.2):GOTO:Transfer
+
+Q(3): Is their gross income plus their liquid assets more than $16,460?
+A: Yes
+	Q(3.1):GOTO:Attorney
+A: No
+	Q(3.2):GOTO:Transfer
+
+Q(4): Is their gross income plus their liquid assets more than $20,780?
+A: Yes
+	Q(4.1):GOTO:Attorney
+A: No
+	Q(4.2):GOTO:Transfer
+
+Q(5): Is their gross income plus their liquid assets more than $25,100?
+A: Yes
+	Q(5.1):GOTO:Attorney
+A: No
+	Q(5.2):GOTO:Transfer
+
+Q(6): Is their gross income plus their liquid assets more than $29,420?
+A: Yes
+	Q(6.1):GOTO:Attorney
+A: No
+	Q(6.2):GOTO:Transfer
+
+Q(7): Is their gross income plus their liquid assets more than $33,740?
+A: Yes
+	Q(7.1):GOTO:Attorney
+A: No
+	Q(7.2):GOTO:Transfer
+
+Q(8): Is their gross income plus their liquid assets more than $38,060?
+A: Yes
+	Q(8.1):GOTO:Attorney
+A: No
+	Q(8.2):GOTO:Transfer
+
+Q(9): Is their gross income plus their liquid assets more than $42,380?
+A: Yes
+	Q(9.1):GOTO:Attorney
+A: No
+	Q(9.2):GOTO:Transfer
+
+Q(8Plus): Is their gross income plus their liquid assets more than $42,380 PLUS $4,320 per additional household member?
+A: Yes
+	Q(10.1):GOTO:Attorney
+A: No
+	Q(10.2):GOTO:Transfer
+
+Q(Attorney): Is their gross income plus their liquid assets more than the previous amount PLUS the anticipated cost of private legal representation?
+A: Yes
+	Q(11.1):GOTO:Notindigent
+A: No
+	Q(11.2):GOTO:Transfer2
+
+Q(Transfer2): Was there any transfer of property by them without adequate monetary consideration after the date of the alleged commission of the offense?
+A: Yes
+	Q(12.1):GOTO:Reconvey2
+A: No
+	Q(12.2): They are most likely to be found "partially indigent," and may be ordered by the court to pay, to the clerk of the district court, a sum not more than the amount expended by the board on behalf of the defendant.
+
+Q(Transfer): Was there any transfer of property by them without adequate monetary consideration after the date of the alleged commission of the offense?
+A: Yes
+	Q(13.1):GOTO:Reconvey
+A: No
+	Q(13.2):GOTO:Indigent
+
+Q(Reconvey2): Has that property been reconveyed back to them?
+A: Yes
+	Q(14.1): They are most likely to be found "partially indigent," and may be ordered by the court to pay, to the clerk of the district court, a sum not more than the amount expended by the board on behalf of the defendant.
+A: No
+	Q(14.2):GOTO:Notindigent
+
+Q(Reconvey): Has that property been reconveyed back to them?
+A: Yes
+	Q(15.1):GOTO:Indigent
+A: No
+	Q(15.2):GOTO:Notindigent
+
+Q(Notindigent): Unfortunately, they are most likely not going to be found to be indigent under Kansas statutory law.
+
+Q(Indigent): They are most likely going to be found indigent and should be appointed counsel by the court.
