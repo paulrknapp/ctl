@@ -1,0 +1,72 @@
+Title: Kansas Indigency Calculator
+Author: Paul Knapp
+Before:<link rel="stylesheet" type="text/css" href="https://suffolklitlab.org/howto/qna/style/style.css">
+<div id="icon" style="background-size: 110px 99px;background-image: url('https://suffolklitlab.org/howto/qna/images/maxheadroom.gif');"></div>
+<h2 style="text-align:center;">Kansas Indigency Calculator</h2>
+<p><b>This is a <a href="http://www.codingthelaw.org/">class project</a>. You should not rely on it as a source of legal information. It is likely incomplete.</b></p>
+<p>Answer the following questions to see if someone qualifies for appointment of counsel.</p>
+<script>
+function fedpov(house,income,percentage){
+	// Determines if your income is less than or equal to 
+	// a percentage of the 2018 federal poverty guidelines 
+	// for the contiguous United States. See
+	// https://www.federalregister.gov/documents/2018/01/18/2018-00814/annual-update-of-the-hhs-poverty-guidelines
+	
+		var line = NaN;
+	
+		if (house == 1) {
+			line = 12140;
+		} else if (house == 2) {
+			line = 16460;
+		} else if (house == 3) {
+			line = 20780;
+		} else if (house == 4) {
+			line = 25100;
+		} else if (house == 5) {
+			line = 29420;
+		} else if (house == 6) {
+			line = 33740;
+		} else if (house == 7) {
+			line = 38060;
+		} else if (house == 8) {
+			line = 42380;
+		} else if (house > 8) {
+			line = 42380 + (house-8)*4320;
+		}
+	
+		if (income <= (line*(percentage/100))) {
+			return true;
+		} else {
+			return false;
+		}
+	}	
+</script>	
+
+Q(house): How many people are in your household?
+X:number
+	Q(income): How much income does your household bring in per year in after tax dollars?
+	X[javascript:if (fedpov(getvar('house'),getvar('income'),100)){ goto('transfer') } else { goto('attorney') } ]:number
+
+Q(attorney): They exceed the Federal Poverty Guidelines and will therefore not be found indigent. However, they may still be considered "partially indigent." This is the case if, though their income exceeds the Federal Poverty Guidelines, they do not make enough to also cover the anticipated cost of a private attorney. Does this describe their situation?
+A: Yes
+	Q(2.1): They will most likely be found "partially indigent" and may be ordered by the court to pay a sum not more than the amount expended by the board on behalf of the defendant.
+		//KAR 105-4-5
+A: No
+	Q(2.2):GOTO:Notindigent
+
+Q(transfer): Was there any transfer of property by them without adequate monetary consideration after the date of the alleged commission of the offense?
+A: Yes
+	Q(3.1):GOTO:Reconvey
+A: No
+	Q(3.2):GOTO:Indigent
+
+Q(Reconvey): Has that property been reconveyed back to them?
+A: Yes
+	Q(4.1):GOTO:Indigent
+A: No
+	Q(4.2): If the defendant has transferred property after the alleged commission of the offense, the court shall determine the reason for the transfer of property and whether adequate monetary consideration was received. If adequate monetary consideration was not received, the court shall presume that the transfer was made for the purpose of establishing eligibility unless the defendant furnishes clear and convincing evidence that the transfer was made exclusively for another purpose.
+		//KAR 105-4-2
+
+Q(Notindigent): Unfortunately, they are most likely not going to be found to be indigent under Kansas statutory law.
+
+Q(Indigent): They are most likely going to be found indigent and should be appointed counsel by the court.
